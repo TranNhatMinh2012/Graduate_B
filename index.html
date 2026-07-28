@@ -106,7 +106,7 @@
         <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-amber-500/40 shadow-2xl relative overflow-hidden">
           <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
             
-            <div class="md:col-span-7 text-left space-y-4 sm:space-y-5">
+            <div class="md:col-span-7 text-left space-y-4 sm:space-y-5 order-last md:order-first">
               <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-950/80 border border-amber-400/50 text-xs font-bold text-amber-300">
                 <i class="fa-solid fa-sparkles text-amber-400"></i>
                 <span>GRADUATION HONOR 🎓</span>
@@ -158,8 +158,8 @@
               </div>
             </div>
 
-            <!-- Main Portrait Gallery: 2 Separate Panels -->
-            <div class="md:col-span-5">
+            <!-- Main Portrait Gallery: 2 Separate Panels — appears FIRST on mobile -->
+            <div class="md:col-span-5 order-first md:order-last">
               <div id="heroPhotoGallery" class="hero-gallery-grid">
                 <!-- Panels injected by JS -->
               </div>
