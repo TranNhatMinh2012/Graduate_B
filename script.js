@@ -77,36 +77,34 @@ const appData = {
   ],
   userVault: [],
   memories: [
-    { title: "Kỷ Niệm 1", img: "images/memory/753880647_2378720785865098_7066912956764792131_n.jpg" },
-    { title: "Kỷ Niệm 2", img: "images/memory/754949030_27917159154546495_580427233896830418_n.jpg" },
-    { title: "Kỷ Niệm 3", img: "images/memory/755432482_1062085470110263_1494344023113185245_n.jpg" },
-    { title: "Kỷ Niệm 4", img: "images/memory/755498946_1050693397497030_6664484442179230643_n.jpg" },
-    { title: "Kỷ Niệm 5", img: "images/memory/756035025_915779581566043_4832727772103850653_n.jpg" },
-    { title: "Kỷ Niệm 6", img: "images/memory/756332621_1058476883403890_5307221165415531462_n.jpg" },
-    { title: "Kỷ Niệm 7", img: "images/memory/758386139_2458109228008148_3337134205912030348_n.jpg" },
-    { title: "Kỷ Niệm 8", img: "images/memory/8EED5053-D33A-4B37-8E65-704BB6F4EFEF-65140-0000220F3D68E531.JPG" },
-    { title: "Kỷ Niệm 9", img: "images/memory/IMG_2523.PNG" },
-    { title: "Kỷ Niệm 10", img: "images/memory/IMG_2635.PNG" },
-    { title: "Kỷ Niệm 11", img: "images/memory/IMG_4505.PNG" },
-    { title: "Kỷ Niệm 12", img: "images/memory/IMG_4509.PNG" },
-    { title: "Kỷ Niệm 13", img: "images/memory/IMG_4511.PNG" },
-    { title: "Kỷ Niệm 14", img: "images/memory/IMG_4513.PNG" },
-    { title: "Kỷ Niệm 15", img: "images/memory/IMG_4516.PNG" },
-    { title: "Kỷ Niệm 16", img: "images/memory/IMG_4517.PNG" },
-    { title: "Kỷ Niệm 17", img: "images/memory/IMG_5846.JPG" },
-    { title: "Kỷ Niệm 18", img: "images/memory/IMG_5847.JPG" },
-    { title: "Kỷ Niệm 19", img: "images/memory/IMG_6242.JPG" },
-    { title: "Kỷ Niệm 20", img: "images/memory/IMG_6246.JPG" },
-    { title: "Kỷ Niệm 21", img: "images/memory/IMG_7034.JPG" },
-    { title: "Kỷ Niệm 22", img: "images/memory/IMG_7035.JPG" },
-    { title: "Kỷ Niệm 23", img: "images/memory/IMG_7342.JPG" },
-    { title: "Kỷ Niệm 24", img: "images/memory/IMG_7405.PNG" },
-    { title: "Kỷ Niệm 25", img: "images/memory/IMG_7601.PNG" },
-    { title: "Kỷ Niệm 26", img: "images/memory/IMG_7611.PNG" },
-    { title: "Kỷ Niệm 27", img: "images/memory/IMG_7614.PNG" },
-    { title: "Kỷ Niệm 28", img: "images/memory/dhalf 2023-01-23 212408.963.JPG" },
-    { title: "Kỷ Niệm 29", img: "images/memory/original 2024-05-02 010001.098.jpg" },
-    { title: "Kỷ Niệm 30", img: "images/memory/photobooth-2025-07-23-3.PNG" }
+    { title: "Kỷ Niệm", img: "images/memory/753880647_2378720785865098_7066912956764792131_n.jpg" },
+    { title: "Kỷ Niệm", img: "images/memory/754949030_27917159154546495_580427233896830418_n.jpg" },
+    { title: "Kỷ Niệm", img: "images/memory/755432482_1062085470110263_1494344023113185245_n.jpg" },
+    { title: "Kỷ Niệm", img: "images/memory/755498946_1050693397497030_6664484442179230643_n.jpg" },
+    { title: "Kỷ Niệm", img: "images/memory/756035025_915779581566043_4832727772103850653_n.jpg" },
+    { title: "Kỷ Niệm", img: "images/memory/756332621_1058476883403890_5307221165415531462_n.jpg" },
+    { title: "Kỷ Niệm", img: "images/memory/758386139_2458109228008148_3337134205912030348_n.jpg" },
+    { title: "Kỷ Niệm", img: "images/memory/8EED5053-D33A-4B37-8E65-704BB6F4EFEF-65140-0000220F3D68E531.JPG" },
+    { title: "Kỷ Niệm", img: "images/memory/IMG_2523.PNG" },
+    { title: "Kỷ Niệm", img: "images/memory/IMG_2635.PNG" },
+    { title: "Kỷ Niệm", img: "images/memory/IMG_4505.PNG" },
+    { title: "Kỷ Niệm", img: "images/memory/IMG_4509.PNG" },
+    { title: "Kỷ Niệm", img: "images/memory/IMG_4511.PNG" },
+    { title: "Kỷ Niệm", img: "images/memory/IMG_4513.PNG" },
+    { title: "Kỷ Niệm", img: "images/memory/IMG_4516.PNG" },
+    { title: "Kỷ Niệm", img: "images/memory/IMG_4517.PNG" },
+    { title: "Kỷ Niệm", img: "images/memory/IMG_5846.JPG" },
+    { title: "Kỷ Niệm", img: "images/memory/IMG_5847.JPG" },
+    { title: "Kỷ Niệm", img: "images/memory/IMG_6242.JPG" },
+    { title: "Kỷ Niệm", img: "images/memory/IMG_7034.JPG" },
+    { title: "Kỷ Niệm", img: "images/memory/IMG_7035.JPG" },
+    { title: "Kỷ Niệm", img: "images/memory/IMG_7342.JPG" },
+    { title: "Kỷ Niệm", img: "images/memory/IMG_7405.PNG" },
+    { title: "Kỷ Niệm", img: "images/memory/IMG_7601.PNG" },
+    { title: "Kỷ Niệm", img: "images/memory/IMG_7611.PNG" },
+    { title: "Kỷ Niệm", img: "images/memory/IMG_7614.PNG" },
+    { title: "Kỷ Niệm", img: "images/memory/dhalf 2023-01-23 212408.963.JPG" },
+    { title: "Kỷ Niệm", img: "images/memory/photobooth-2025-07-23-3.PNG" }
   ]
 };
 
@@ -1017,7 +1015,7 @@ function drawAIFortune() {
     const data = offlineFortunes[Math.floor(Math.random() * offlineFortunes.length)];
     resultBox.innerHTML = `
       <div class="text-center border-b border-amber-500/20 pb-3">
-        <span class="text-xs font-hud font-bold text-amber-400 uppercase tracking-widest block mb-1">📜 QUẺ XÂM HOÀNG GIA: ${data.type}</span>
+        <span class="text-xs font-hud font-bold text-amber-400 uppercase tracking-widest block mb-1">📜 QUẺ XĂM HOÀNG GIA: ${data.type}</span>
         <h4 class="font-thai text-lg font-bold text-amber-200">${data.proverbThai}</h4>
         <p class="text-[11px] text-amber-300 italic">(${data.proverbPhonetic})</p>
         <p class="text-xs font-semibold text-gray-200 mt-1 font-vietnam">"${data.proverbMeaning}"</p>
@@ -1036,7 +1034,7 @@ function drawAIFortune() {
     loading.classList.add('hidden');
     resultBox.classList.remove('hidden');
     btn.disabled = false;
-    showToast("Đã rút được Quẻ Xâm Đại Cát Hoàng Gia!", "RÚT QUẺ SUCCESS 🔮");
+    showToast("Đã rút được Quẻ Xăm Đại Cát Hoàng Gia!", "RÚT QUẺ SUCCESS 🔮");
   }, 950);
 }
 
