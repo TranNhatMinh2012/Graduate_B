@@ -1,0 +1,171 @@
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #030712;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d97706;
+  border-radius: 4px;
+  border: 1px solid #fbbf24;
+}
+
+body {
+  background-color: #030712;
+  color: #f3f4f6;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  overflow-x: hidden;
+  user-select: none;
+}
+
+.aurora-gold-text {
+  background: linear-gradient(135deg, #ffffff 0%, #fef08a 25%, #fbbf24 65%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 25px rgba(251, 191, 36, 0.7));
+}
+
+.glass-panel {
+  background: rgba(11, 15, 41, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(251, 191, 36, 0.35);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), inset 0 0 30px rgba(251, 191, 36, 0.06);
+}
+
+.glass-card {
+  background: rgba(15, 22, 54, 0.88);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(251, 191, 36, 0.35);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+  will-change: transform;
+}
+
+.glass-card:hover {
+  border-color: #fef08a;
+  box-shadow: 0 0 40px rgba(251, 191, 36, 0.55);
+  transform: translateY(-5px);
+}
+
+/* Hero Gallery: 2 portrait panels side by side */
+.hero-gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  gap: 10px;
+  height: 100%;
+}
+
+.hero-photo-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-panel-main {
+  grid-row: span 1;
+  aspect-ratio: 2/3;
+}
+
+.hero-panel-secondary {
+  grid-row: span 1;
+  aspect-ratio: 2/3;
+  margin-top: 32px; /* vertical offset for staggered elegance */
+}
+
+@media (max-width: 768px) {
+  .hero-gallery-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .hero-panel-secondary {
+    margin-top: 20px;
+  }
+}
+
+@keyframes gentleFloat {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-1.5deg); }
+  50% { transform: translate3d(0, -8px, 0) rotate(1.5deg); }
+}
+
+@keyframes softGlowPulse {
+  0%, 100% { opacity: 0.85; filter: drop-shadow(0 0 18px rgba(251, 191, 36, 0.85)); }
+  50% { opacity: 1; filter: drop-shadow(0 0 35px rgba(251, 191, 36, 1)); }
+}
+
+@keyframes flameFlicker {
+  0%, 100% { transform: scale(1); opacity: 0.95; }
+  25% { transform: scale(1.1) translate(0.3px, -0.5px); opacity: 1; }
+  50% { transform: scale(0.92) translate(-0.3px, 0.3px); opacity: 0.85; }
+  75% { transform: scale(1.05) translate(0.2px, -0.2px); opacity: 0.98; }
+}
+
+@keyframes tubeShake {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  15% { transform: rotate(-14deg) translateY(-8px); }
+  30% { transform: rotate(14deg) translateY(6px); }
+  45% { transform: rotate(-10deg) translateY(-5px); }
+  60% { transform: rotate(10deg) translateY(3px); }
+  75% { transform: rotate(-5deg); }
+}
+
+@keyframes stickRise {
+  0% { transform: translateY(0) scale(1); opacity: 0.8; }
+  50% { transform: translateY(-28px) scale(1.12); opacity: 1; filter: drop-shadow(0 0 15px #fbbf24); }
+  100% { transform: translateY(-20px) scale(1.05); opacity: 1; filter: drop-shadow(0 0 20px #fef08a); }
+}
+
+.gentle-float {
+  animation: gentleFloat 4.2s ease-in-out infinite;
+  will-change: transform;
+}
+
+.soft-glow-pulse {
+  animation: softGlowPulse 2.8s ease-in-out infinite;
+}
+
+.flame-flicker {
+  animation: flameFlicker 1.2s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.tube-shaking {
+  animation: tubeShake 0.65s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+.stick-drawn {
+  animation: stickRise 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+#bg360 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: auto;
+}
+
+.section-tab {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.section-tab.active {
+  display: block;
+  opacity: 1;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

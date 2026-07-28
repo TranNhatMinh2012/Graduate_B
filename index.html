@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Bầu Trời Sao Kỷ Niệm - Cử Nhân Phạm Hoài Xuân Bích</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Three.js CDN for Cinematic 3D Background -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- PapaParse for CSV reading -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Noto+Sans+Thai:wght@400;500;600;700;800;900&family=Prompt:wght@400;500;600;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+  <!-- Custom External CSS & JS -->
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body class="relative min-h-screen">
+
+  <canvas id="bg360"></canvas>
+
+  <div class="fixed bottom-4 left-4 z-40 flex flex-wrap items-center gap-2 pointer-events-auto">
+    <div class="glass-panel px-3 py-2 rounded-2xl flex items-center gap-2 border-amber-400/50 text-xs font-bold text-amber-300 shadow-2xl">
+      <i class="fa-solid fa-arrows-spin text-amber-400"></i>
+      <span class="hidden sm:inline">Xoay Bầu Trời 3D: Kéo Chuột/Tay</span>
+      <button onclick="reset3DCameraView()" class="px-2 py-1 rounded-lg bg-amber-400/20 hover:bg-amber-400 hover:text-gray-950 text-[10px] transition">Đặt Lại</button>
+    </div>
+
+    <button id="audioToggleBtn" onclick="toggleBackgroundAudio()" class="glass-panel px-3 py-2 rounded-2xl flex items-center gap-2 border-amber-400/50 text-xs font-bold text-amber-300 hover:bg-amber-400/20 transition shadow-2xl">
+      <i id="audioIcon" class="fa-solid fa-music text-amber-400"></i>
+      <span id="audioText">Bật Nhạc Nền</span>
+    </button>
+  </div>
+
+  <header class="fixed top-0 left-0 right-0 z-50 p-2 sm:p-4">
+    <div class="max-w-7xl mx-auto flex justify-between items-center gap-2">
+      
+      <div class="glass-panel px-3 py-1.5 sm:px-4 sm:py-2 rounded-2xl flex items-center gap-2 border-amber-400/50 flex-shrink-0">
+        <i class="fa-solid fa-graduation-cap text-amber-300 text-sm"></i>
+        <span class="text-[10px] sm:text-xs font-hud font-bold tracking-widest text-amber-300 uppercase">HAPPY GRADUATION</span>
+      </div>
+
+      <nav class="glass-panel rounded-2xl p-1 sm:p-1.5 flex items-center gap-1 border-amber-500/40 overflow-x-auto max-w-full no-scrollbar">
+        <button onclick="switchTab('hero')" data-tab="hero" class="nav-btn active px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-bold text-gray-950 bg-gradient-to-r from-amber-300 to-amber-500 shadow-md transition flex items-center gap-1.5 flex-shrink-0 whitespace-nowrap">
+          <i class="fa-solid fa-graduation-cap text-gray-950"></i>
+          <span>Vinh Danh</span>
+        </button>
+        <button onclick="switchTab('lanterns')" data-tab="lanterns" class="nav-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-bold text-gray-300 hover:text-white hover:bg-amber-900/40 transition flex items-center gap-1.5 flex-shrink-0 whitespace-nowrap">
+          <i class="fa-solid fa-fire-flame-curved text-amber-400"></i>
+          <span>Lễ Hội Đèn Trời</span>
+          <span id="navLanternBadge" class="bg-amber-400 text-gray-950 text-[10px] font-black px-1.5 py-0.5 rounded-full">0/6</span>
+        </button>
+        <button onclick="switchTab('wishes')" data-tab="wishes" class="nav-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-bold text-gray-300 hover:text-white hover:bg-amber-900/40 transition flex items-center gap-1.5 flex-shrink-0 whitespace-nowrap">
+          <i class="fa-solid fa-envelope-open-text text-amber-300"></i>
+          <span>Nhóm 7 NỤ</span>
+        </button>
+        <button onclick="switchTab('memories')" data-tab="memories" class="nav-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-bold text-gray-300 hover:text-white hover:bg-amber-900/40 transition flex items-center gap-1.5 flex-shrink-0 whitespace-nowrap">
+          <i class="fa-solid fa-images text-amber-400"></i>
+          <span>Kỷ Niệm</span>
+        </button>
+        <button onclick="switchTab('ai-oracle')" data-tab="ai-oracle" class="nav-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-bold text-gray-300 hover:text-white hover:bg-amber-900/40 transition flex items-center gap-1.5 flex-shrink-0 whitespace-nowrap">
+          <i class="fa-solid fa-crystal-ball text-amber-300"></i>
+          <span>Quẻ Xâm Đại Cát</span>
+        </button>
+      </nav>
+
+      <button onclick="downloadWishSummary()" class="glass-panel px-3 py-2 rounded-xl text-xs font-bold text-amber-300 hover:bg-amber-500/20 transition hidden lg:flex items-center gap-1.5 border-amber-400/40 flex-shrink-0">
+        <i class="fa-solid fa-file-arrow-down"></i>
+        <span>Lưu Lời Chúc</span>
+      </button>
+
+    </div>
+  </header>
+
+  <main class="relative z-10 pt-20 sm:pt-24 pb-20 pointer-events-none">
+
+    <!-- TAB 1: HERO / HONORS -->
+    <div id="section-hero" class="section-tab active">
+      <section class="max-w-6xl mx-auto px-4 py-4 sm:py-8 space-y-12 pointer-events-auto">
+        <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-amber-500/40 shadow-2xl relative overflow-hidden">
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+            
+            <div class="md:col-span-7 text-left space-y-4 sm:space-y-5">
+              <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-950/80 border border-amber-400/50 text-xs font-bold text-amber-300">
+                <i class="fa-solid fa-sparkles text-amber-400"></i>
+                <span>GRADUATION HONOR 🎓</span>
+              </div>
+
+              <div>
+                <div class="text-xl sm:text-2xl font-bold text-amber-300 mb-1 flex items-center gap-2 flex-wrap">
+                  <span class="font-thai">ยินดีด้วยนะ</span>
+                  <span class="text-amber-400/60 font-light">—</span>
+                  <span class="font-vietnam">Chúc mừng tốt nghiệp</span>
+                </div>
+                <h1 class="text-3xl sm:text-5xl font-black text-white uppercase tracking-tight leading-none">
+                  TÂN CỬ NHÂN <br>
+                  <span class="aurora-gold-text">PHẠM HOÀI XUÂN BÍCH</span>
+                </h1>
+              </div>
+
+              <div class="inline-flex flex-wrap items-center gap-2 px-4 py-2 rounded-2xl bg-amber-950/70 border border-amber-400/40 text-xs font-semibold text-gray-200">
+                <span class="font-thai text-amber-300 font-bold text-sm">บัณฑิตเกียรตินิยม</span>
+                <span class="font-vietnam">• Chuyên Ngành Ngôn Ngữ Thái (2022 - 2026)</span>
+              </div>
+
+              <p class="text-xs sm:text-sm text-gray-300 leading-relaxed font-medium font-vietnam">
+                Chặng đường 4 năm rực rỡ dưới mái trường đại học đã chính thức khép lại. Hôm nay là ngày Xuân Bích tỏa sáng nhất — mang theo tri thức, bản lĩnh và vô vàn tình cảm yêu thương từ 7 NỤ!
+              </p>
+
+              <div class="pt-4 border-t border-amber-500/20 space-y-3">
+                <div class="p-3.5 rounded-2xl bg-gradient-to-r from-amber-950/80 via-amber-900/40 to-indigo-950/80 border border-amber-400/40 backdrop-blur-md shadow-inner flex flex-col sm:flex-row items-center gap-3">
+                  <div class="w-10 h-10 rounded-xl bg-amber-400/20 border border-amber-300/40 flex items-center justify-center text-amber-300 text-lg flex-shrink-0">
+                    📜
+                  </div>
+                  <div class="text-left flex-1">
+                    <span class="text-[10px] text-amber-300 font-hud font-bold tracking-widest uppercase block">ROYAL THAI PROVERB</span>
+                    <p class="font-thai text-xs font-bold text-amber-200">ความพยายามอยู่ที่ไหน ความสำเร็จอยู่ที่นั่น</p>
+                    <p class="text-[11px] text-gray-300 italic font-vietnam">"Nơi đâu có nỗ lực, nơi đó chắc chắn có thành công."</p>
+                  </div>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3 pt-1">
+                  <button onclick="switchTab('lanterns')" class="flex-1 min-w-[200px] px-6 py-3.5 rounded-2xl bg-gradient-to-r from-amber-300 via-amber-400 to-amber-500 text-gray-950 font-black text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(251,191,36,0.6)] transition transform hover:scale-105 flex items-center justify-center gap-2.5 group">
+                    <i class="fa-solid fa-fire text-amber-950 text-base group-hover:scale-125 transition"></i>
+                    <span>NGHI THỨC THẢ ĐÈN YI PENG CHIANG MAI 🇹🇭</span>
+                  </button>
+                  <button onclick="switchTab('wishes')" class="px-5 py-3.5 rounded-2xl glass-panel text-amber-200 font-bold text-xs uppercase hover:bg-amber-900/40 border-amber-400/30 transition flex items-center gap-2">
+                    <i class="fa-solid fa-envelope-open-text text-amber-400"></i>
+                    <span>Lời Chúc Nhóm 7 NỤ</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Main Portrait Gallery: 2 Separate Panels -->
+            <div class="md:col-span-5">
+              <div id="heroPhotoGallery" class="hero-gallery-grid">
+                <!-- Panels injected by JS -->
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="section-lanterns" class="section-tab">
+      <section class="max-w-5xl mx-auto px-4 py-6 text-center space-y-6 pointer-events-auto">
+        <div class="space-y-3 max-w-2xl mx-auto">
+          <span class="glass-panel px-4 py-1.5 rounded-full text-xs font-bold text-amber-300 uppercase tracking-widest border-amber-500/30">
+            CHIANG MAI YI PENG LANTERN RITUAL
+          </span>
+          <h2 class="text-3xl sm:text-5xl font-black aurora-gold-text">Lễ Hội Thả Đèn Trời Yi Peng</h2>
+          <p class="text-xs sm:text-sm text-gray-300 leading-relaxed font-vietnam">
+            Châm lửa thả từng chiếc đèn trời mang tên <span class="text-amber-300 font-bold">Nhóm 7 NỤ</span> để thắp sáng bầu trời Chiang Mai 3D và mở khóa những lời chúc mừng tốt nghiệp ngọt ngào nhất.
+          </p>
+        </div>
+
+        <div class="glass-panel p-4 rounded-2xl max-w-md mx-auto border-amber-500/30 space-y-2">
+          <div class="flex justify-between items-center text-xs font-bold">
+            <span class="text-amber-300" id="lanternProgressText">Đã Thả: 0/6 Đèn Trời Nhóm 7 NỤ</span>
+            <span class="text-amber-200" id="lanternProgressPercent">0%</span>
+          </div>
+          <div class="w-full h-2.5 bg-gray-950 rounded-full overflow-hidden border border-amber-500/30 p-0.5">
+            <div id="lanternProgressFill" class="h-full bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 rounded-full transition-all duration-500 w-0"></div>
+          </div>
+        </div>
+
+        <div id="lanternGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+
+        <!-- Cleaned Graduate Personal Mega Launcher (Hoạ tiết lụa removed as requested) -->
+        <div class="glass-panel rounded-3xl p-6 sm:p-8 border-amber-400/40 text-left space-y-5 max-w-3xl mx-auto bg-gradient-to-r from-amber-950/60 via-indigo-950/80 to-amber-950/60">
+          <div class="flex items-center gap-3 border-b border-amber-500/30 pb-3">
+            <i class="fa-solid fa-fire-flame-curved text-amber-400 text-xl"></i>
+            <div>
+              <h3 class="text-base font-bold text-amber-300">XƯỞNG PHÓNG ĐÈN TRỜI HOÀNG GIA (XUÂN BÍCH)</h3>
+              <p class="text-xs text-gray-300 font-vietnam">Gửi gắm ước nguyện cá nhân tốt nghiệp lên bầu trời đêm Chiang Mai huyền ảo.</p>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label class="block text-xs font-bold text-amber-300">1. Lời Ước Nguyện Tốt Nghiệp Của Bích:</label>
+                <button type="button" onclick="getRandomPresetWish()" class="px-2.5 py-1 rounded-lg bg-amber-400/20 hover:bg-amber-400 hover:text-gray-950 text-amber-300 border border-amber-400/40 font-bold text-[11px] transition flex items-center gap-1">
+                  <i class="fa-solid fa-dice text-amber-300"></i>
+                  <span>🎲 Gợi Ý Lời Ước</span>
+                </button>
+              </div>
+              <textarea id="userPersonalWish" rows="2" class="w-full p-3 rounded-xl bg-gray-950/80 border border-amber-500/30 text-xs text-amber-100 focus:border-amber-400 focus:outline-none placeholder-gray-500 font-vietnam" placeholder="Nhập lời ước nguyện cho tương lai sự nghiệp, ước mơ tại xứ sở Chùa Vàng..."></textarea>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-amber-300 mb-1">2. Chọn Thông Điệp Phước Lành Tiếng Thái:</label>
+              <select id="userThaiBlessing" class="w-full p-2.5 rounded-xl bg-gray-950/80 border border-amber-500/30 text-xs text-amber-200 font-thai focus:border-amber-400 focus:outline-none">
+                <option value="ขอให้มีความสุขมากๆ — Chúc Luôn Ngập Tràn Hạnh Phúc">ขอให้มีความสุขมากๆ — Chúc Luôn Ngập Tràn Hạnh Phúc</option>
+                <option value="ขอให้โชคดีในทุกเส้นทาง — Chúc May Mắn Trên Mọi Con Đường">ขอให้โชคดีในทุกเส้นทาง — Chúc May Mắn Trên Mọi Con Đường</option>
+                <option value="อนาคตสดใสและรุ่งโรจน์ — Chúc Tương Lai Tỏa Sáng Rực Rỡ">อนาคตสดใสและรุ่งโรจน์ — Chúc Tương Lai Tỏa Sáng Rực Rỡ</option>
+                <option value="ขอให้ความฝันเป็นจริง — Chúc Ước Mơ Sớm Thành Hiện Thực">ขอให้ความฝันเป็นจริง — Chúc Ước Mơ Sớm Thành Hiện Thực</option>
+              </select>
+            </div>
+
+            <div class="pt-2">
+              <button onclick="launchGraduateMegaLantern()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-300 via-amber-400 to-amber-500 text-gray-950 font-black text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(251,191,36,0.6)] hover:scale-[1.02] active:scale-95 transition flex items-center justify-center gap-2">
+                <i class="fa-solid fa-paper-plane text-gray-950"></i>
+                <span>Thả Đèn Hoàng Gia Xuân Bích</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-panel p-6 rounded-3xl border border-amber-500/30 text-left space-y-4">
+          <div class="flex justify-between items-center pb-3 border-b border-amber-500/20">
+            <h4 class="text-sm font-bold text-amber-300 flex items-center gap-2">
+              <i class="fa-solid fa-cloud-moon text-amber-400"></i> SỔ BẦU TRỜI NGUYỆN ƯỚC (NHỮNG ĐÈN ĐÃ THẢ)
+            </h4>
+            <span id="skyVaultCount" class="text-xs font-bold text-amber-400 bg-amber-950/80 px-2.5 py-1 rounded-full border border-amber-400/30">
+              0 Đèn Trên Bầu Trời
+            </span>
+          </div>
+
+          <div id="skyVaultContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
+        </div>
+      </section>
+    </div>
+
+    <div id="section-wishes" class="section-tab">
+      <section class="max-w-4xl mx-auto px-4 py-6 space-y-6 pointer-events-auto">
+        <div class="text-center space-y-3">
+          <span class="glass-panel px-4 py-1.5 rounded-full text-xs font-bold text-amber-300 uppercase tracking-widest border-amber-500/30">
+            FRIENDSHIP WISHES // NHÓM 7 NỤ
+          </span>
+          <h2 class="text-3xl sm:text-5xl font-black aurora-gold-text">Lời Chúc Tốt Nghiệp Từ Nhóm 7 NỤ</h2>
+          <p class="text-xs sm:text-sm text-gray-300 max-w-xl mx-auto font-vietnam">
+            Hãy thả chiếc đèn trời mang tên từng người bạn trong Lễ Hội Yi Peng để thắp sáng ước nguyện và mở khóa thông điệp!
+          </p>
+        </div>
+
+        <div id="friendTabsBar" class="flex gap-2 overflow-x-auto pb-2 justify-center no-scrollbar"></div>
+
+        <div class="glass-card rounded-3xl p-6 sm:p-8 border-amber-400/40 shadow-2xl relative bg-gradient-to-br from-amber-950/40 to-indigo-950/80">
+          <div id="wishDisplayCardContent" class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center"></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- TAB 4: MEMORIES GALLERY -->
+    <div id="section-memories" class="section-tab">
+      <section class="max-w-6xl mx-auto px-4 py-6 text-center space-y-8 pointer-events-auto">
+        <div class="space-y-2">
+          <span class="glass-panel px-4 py-1.5 rounded-full text-xs font-bold text-amber-300 uppercase tracking-widest border-amber-500/30">
+            TIME CAPSULE PLANETS 📸
+          </span>
+          <h2 class="text-3xl sm:text-5xl font-black aurora-gold-text">Hành Tinh Kỷ Niệm Thanh Xuân 📸</h2>
+        </div>
+
+        <div id="memoriesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+      </section>
+    </div>
+
+    <div id="section-ai-oracle" class="section-tab">
+      <section class="max-w-5xl mx-auto px-4 py-6 space-y-8 text-center pointer-events-auto">
+        <div class="space-y-3 max-w-2xl mx-auto">
+          <span class="glass-panel px-4 py-1.5 rounded-full text-xs font-bold text-amber-300 uppercase tracking-widest border-amber-500/30">
+            ROYAL THAI FORTUNE & BLESSING 🔮
+          </span>
+          <h2 class="text-3xl sm:text-5xl font-black aurora-gold-text">Ống Xâm Đại Cát</h2>
+          <p class="text-xs sm:text-sm text-gray-300 leading-relaxed font-vietnam">
+            Rút quẻ may mắn Hoàng Gia Thái Lan dành riêng cho cử nhân <span class="text-amber-300 font-bold">Xuân Bích</span>! 100% Quẻ Thượng Thượng mang đến niềm vui, tài lộc, sự nghiệp rực rỡ và tình bạn thắm thiết cùng Nhóm 7 NỤ.
+          </p>
+        </div>
+
+        <div class="flex justify-center gap-2 border-b border-amber-500/30 pb-4 overflow-x-auto no-scrollbar">
+          <button onclick="switchAiSubTab('fortune')" id="aiTabBtnFortune" class="px-4 py-2 rounded-xl text-xs font-bold bg-amber-400 text-gray-950 transition flex items-center gap-2">
+            <i class="fa-solid fa-crystal-ball"></i>
+            <span>Rút Quẻ Xâm Đại Cát</span>
+          </button>
+          <button onclick="switchAiSubTab('poem')" id="aiTabBtnPoem" class="px-4 py-2 rounded-xl text-xs font-bold glass-panel text-amber-300 transition flex items-center gap-2">
+            <i class="fa-solid fa-scroll"></i>
+            <span>Thơ Chúc Tốt Nghiệp</span>
+          </button>
+        </div>
+
+        <div id="aiSubTabFortune" class="space-y-6">
+          <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-amber-400/40 max-w-3xl mx-auto text-left space-y-6 bg-gradient-to-br from-amber-950/70 via-indigo-950/90 to-amber-950/70 shadow-2xl">
+            <div class="flex items-center gap-3 border-b border-amber-500/30 pb-4">
+              <span class="text-3xl">🔮</span>
+              <div>
+                <h3 class="text-base font-bold text-amber-300 uppercase font-hud">ỐNG XÂM MAY MẮN HOÀNG GIA THÁI LAN (100% ĐẠI CÁT)</h3>
+                <p class="text-xs text-gray-300 font-vietnam">Chọn chủ đề Bích muốn khám phá để lắc ống xâm nhận Quẻ Thượng Thượng!</p>
+              </div>
+            </div>
+
+            <!-- Beautiful Bamboo Lacquer Tube Visual Container -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+              
+              <div class="md:col-span-5 flex flex-col items-center justify-center p-4 rounded-3xl bg-gray-950/60 border border-amber-500/30 shadow-inner relative overflow-hidden group">
+                
+                <!-- Background Ambient Glow -->
+                <div class="absolute inset-0 bg-gradient-to-t from-amber-500/10 via-amber-400/5 to-transparent pointer-events-none"></div>
+
+                <!-- Redesigned Ornate Royal Bamboo Fortune Stick Tube -->
+                <div id="fortuneTubeVisual" class="relative w-28 h-40 flex flex-col items-center justify-end transition duration-300">
+                  
+                  <!-- Floating Drawn Bamboo Stick -->
+                  <div id="drawnStickVisual" class="hidden absolute top-0 z-20 flex flex-col items-center pointer-events-none">
+                    <div class="w-3.5 h-24 bg-gradient-to-b from-amber-200 via-amber-300 to-amber-600 rounded-t-md border border-amber-100 flex flex-col items-center justify-between py-1.5 shadow-[0_0_15px_rgba(251,191,36,0.9)]">
+                      <span class="text-[9px] font-black text-amber-950 font-thai">๑</span>
+                      <span class="w-1.5 h-1.5 rounded-full bg-red-600"></span>
+                      <span class="text-[8px] font-bold text-amber-950 font-hud">吉</span>
+                    </div>
+                  </div>
+
+                  <!-- Bamboo Sticks Inside Tube Container -->
+                  <div class="relative w-24 h-24 overflow-hidden flex justify-center items-end z-10 pb-2">
+                    <div class="flex items-end justify-center gap-1">
+                      <div class="w-2.5 h-20 bg-amber-200/90 rounded-t-sm -rotate-12 transform origin-bottom border-t border-amber-100 shadow"></div>
+                      <div class="w-2.5 h-22 bg-amber-300 rounded-t-sm -rotate-6 transform origin-bottom border-t border-amber-100 shadow"></div>
+                      <div class="w-3 h-24 bg-amber-100 rounded-t-md rotate-0 transform origin-bottom border-t-2 border-amber-300 shadow"></div>
+                      <div class="w-2.5 h-21 bg-amber-300 rounded-t-sm rotate-6 transform origin-bottom border-t border-amber-100 shadow"></div>
+                      <div class="w-2.5 h-19 bg-amber-200/90 rounded-t-sm rotate-12 transform origin-bottom border-t border-amber-100 shadow"></div>
+                    </div>
+                  </div>
+
+                  <!-- Royal Thai Gold Lacquer Cylinder Vessel -->
+                  <div class="w-28 h-28 bg-gradient-to-b from-amber-700 via-amber-900 to-gray-950 rounded-b-3xl rounded-t-xl border-2 border-amber-300/80 shadow-[0_10px_25px_rgba(0,0,0,0.8)] relative z-10 flex flex-col justify-between p-2 overflow-hidden">
+                    
+                    <!-- Top Gold Metal Rim -->
+                    <div class="w-full h-2.5 bg-gradient-to-r from-amber-300 via-yellow-100 to-amber-400 rounded-full border border-amber-500/50 shadow-sm"></div>
+
+                    <!-- Center Royal Thai Seal Crest -->
+                    <div class="flex flex-col items-center justify-center space-y-0.5 my-auto">
+                      <div class="w-8 h-8 rounded-full bg-amber-950 border border-amber-300/70 flex items-center justify-center shadow-md">
+                        <span class="text-amber-300 text-xs font-black font-thai">👑</span>
+                      </div>
+                      <span class="text-[9px] font-hud text-amber-300 font-extrabold uppercase tracking-widest">ROYAL SIAM</span>
+                    </div>
+
+                    <!-- Red Silk Ribbon Accent Base -->
+                    <div class="w-full py-0.5 bg-red-900/90 border-y border-amber-400/60 text-center">
+                      <span class="text-[8px] text-amber-200 font-bold uppercase tracking-wider block">100% 大吉</span>
+                    </div>
+
+                  </div>
+                </div>
+
+                <span class="text-xs text-amber-300 font-bold mt-3 font-vietnam">Ống Xâm Hoàng Gia Siam 🇹🇭</span>
+              </div>
+
+              <div class="md:col-span-7 space-y-4">
+                <div>
+                  <label class="block text-xs font-bold text-amber-300 mb-1.5">Chọn Chủ Đề Quẻ Bói:</label>
+                  <select id="aiFortuneTopic" class="w-full p-3 rounded-xl bg-gray-950/80 border border-amber-500/40 text-xs text-amber-100 font-bold focus:border-amber-400 focus:outline-none shadow-md">
+                    <option value="Sự Nghiệp">🌟 Sự Nghiệp & Cơ Hội Tại Thái Lan</option>
+                    <option value="Tình Bạn">🌸 Tình Bạn Thanh Xuân Nhóm 7 NỤ</option>
+                    <option value="Du Lịch">🇹🇭 Chuyến Đi Chiang Mai Sắp Tới</option>
+                    <option value="Tình Yêu">💖 Tình Yêu & Hạnh Phúc Lứa Đôi</option>
+                    <option value="Thành Công">🚀 Thành Công Bứt Phá Năm 2024</option>
+                  </select>
+                </div>
+
+                <button onclick="drawAIFortune()" id="btnDrawFortune" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-300 via-amber-400 to-amber-500 text-gray-950 font-black text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(251,191,36,0.6)] hover:scale-[1.02] active:scale-95 transition flex items-center justify-center gap-2">
+                  <i class="fa-solid fa-wand-magic-sparkles text-amber-950"></i>
+                  <span>Lắc Ống Xâm & Rút Quẻ</span>
+                </button>
+              </div>
+
+            </div>
+
+            <div id="aiFortuneLoading" class="hidden text-center py-8 space-y-3">
+              <div class="inline-block w-8 h-8 border-4 border-amber-400 border-t-transparent rounded-full animate-spin"></div>
+              <p class="text-xs font-bold text-amber-300 animate-pulse">
+                <span class="font-thai">กำลังทำนายโชคชะตา...</span>
+                <span class="font-vietnam text-amber-200/80 ms-1">(Đang giải mã quẻ xâm Hoàng Gia...)</span>
+              </p>
+            </div>
+
+            <div id="aiFortuneResult" class="hidden p-5 rounded-2xl bg-gray-950/90 border border-amber-400/50 space-y-3"></div>
+          </div>
+        </div>
+
+        <div id="aiSubTabPoem" class="hidden space-y-6">
+          <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-amber-400/40 max-w-3xl mx-auto text-left space-y-5 bg-gradient-to-br from-amber-950/60 via-indigo-950/80 to-amber-950/60">
+            <div class="flex items-center justify-between border-b border-amber-500/20 pb-3">
+              <div class="flex items-center gap-3">
+                <span class="text-2xl">📜</span>
+                <div>
+                  <h3 class="text-base font-bold text-amber-300">BÀI THƠ SONG NGỮ TỐT NGHIỆP THÁI - VIỆT</h3>
+                  <p class="text-xs text-gray-300 font-vietnam">Thơ chúc mừng cử nhân Phạm Hoài Xuân Bích độc quyền.</p>
+                </div>
+              </div>
+
+              <button onclick="generateAIPoem()" class="px-3.5 py-2 rounded-xl bg-amber-400 text-gray-950 font-bold text-xs hover:bg-amber-300 transition flex items-center gap-1.5">
+                <i class="fa-solid fa-rotate"></i>
+                <span>Tạo Bài Thơ Mới</span>
+              </button>
+            </div>
+
+            <div id="aiPoemResult" class="p-5 rounded-2xl bg-gray-950/90 border border-amber-400/50 space-y-3"></div>
+          </div>
+        </div>
+
+      </section>
+    </div>
+
+  </main>
+
+  <!-- LIGHTBOX MODAL -->
+  <div id="lightboxModal" onclick="closeLightbox(event)" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4 hidden pointer-events-auto">
+    <div class="max-w-4xl w-full relative p-2 glass-panel border-amber-400/50 rounded-3xl" onclick="event.stopPropagation()">
+      <div id="lightboxContent"></div>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+</body>
+</html>
