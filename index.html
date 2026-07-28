@@ -32,46 +32,38 @@
       <span class="hidden sm:inline">Xoay Bầu Trời 3D: Kéo Chuột/Tay</span>
       <button onclick="reset3DCameraView()" class="px-2 py-1 rounded-lg bg-amber-400/20 hover:bg-amber-400 hover:text-gray-950 text-[10px] transition">Đặt Lại</button>
     </div>
-
-    <button id="audioToggleBtn" onclick="toggleBackgroundAudio()" class="glass-panel px-3 py-2 rounded-2xl flex items-center gap-2 border-amber-400/50 text-xs font-bold text-amber-300 hover:bg-amber-400/20 transition shadow-2xl">
-      <i id="audioIcon" class="fa-solid fa-music text-amber-400"></i>
-      <span id="audioText">Bật Nhạc Nền</span>
-    </button>
   </div>
 
-  <header class="fixed top-0 left-0 right-0 z-50 p-2 sm:p-4">
-    <div class="max-w-7xl mx-auto flex justify-between items-center gap-2">
-      
-      <div class="glass-panel px-3 py-1.5 sm:px-4 sm:py-2 rounded-2xl flex items-center gap-2 border-amber-400/50 flex-shrink-0">
-        <i class="fa-solid fa-graduation-cap text-amber-300 text-sm"></i>
-        <span class="text-[10px] sm:text-xs font-hud font-bold tracking-widest text-amber-300 uppercase">HAPPY GRADUATION</span>
-      </div>
 
-      <nav class="glass-panel rounded-2xl p-1 sm:p-1.5 flex items-center gap-1 border-amber-500/40 overflow-x-auto max-w-full no-scrollbar">
-        <button onclick="switchTab('hero')" data-tab="hero" class="nav-btn active px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-bold text-gray-950 bg-gradient-to-r from-amber-300 to-amber-500 shadow-md transition flex items-center gap-1.5 flex-shrink-0 whitespace-nowrap">
-          <i class="fa-solid fa-graduation-cap text-gray-950"></i>
+  <!-- DESKTOP: top navigation header (hidden on mobile) -->
+  <header class="fixed top-0 left-0 right-0 z-50 p-3 hidden sm:block">
+    <div class="max-w-7xl mx-auto flex justify-center items-center gap-3">
+
+      <nav class="glass-panel rounded-2xl p-1.5 flex items-center gap-1 border-amber-500/40">
+        <button onclick="switchTab('hero')" data-tab="hero" class="nav-btn active px-4 py-2 rounded-xl text-xs font-bold text-gray-950 bg-gradient-to-r from-amber-300 to-amber-500 shadow-md transition flex items-center gap-1.5 whitespace-nowrap">
+          <i class="fa-solid fa-graduation-cap"></i>
           <span>Vinh Danh</span>
         </button>
-        <button onclick="switchTab('lanterns')" data-tab="lanterns" class="nav-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-bold text-gray-300 hover:text-white hover:bg-amber-900/40 transition flex items-center gap-1.5 flex-shrink-0 whitespace-nowrap">
+        <button onclick="switchTab('lanterns')" data-tab="lanterns" class="nav-btn px-4 py-2 rounded-xl text-xs font-bold text-gray-300 hover:text-white hover:bg-amber-900/40 transition flex items-center gap-1.5 whitespace-nowrap">
           <i class="fa-solid fa-fire-flame-curved text-amber-400"></i>
           <span>Lễ Hội Đèn Trời</span>
           <span id="navLanternBadge" class="bg-amber-400 text-gray-950 text-[10px] font-black px-1.5 py-0.5 rounded-full">0/6</span>
         </button>
-        <button onclick="switchTab('wishes')" data-tab="wishes" class="nav-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-bold text-gray-300 hover:text-white hover:bg-amber-900/40 transition flex items-center gap-1.5 flex-shrink-0 whitespace-nowrap">
+        <button onclick="switchTab('wishes')" data-tab="wishes" class="nav-btn px-4 py-2 rounded-xl text-xs font-bold text-gray-300 hover:text-white hover:bg-amber-900/40 transition flex items-center gap-1.5 whitespace-nowrap">
           <i class="fa-solid fa-envelope-open-text text-amber-300"></i>
           <span>Nhóm 7 NỤ</span>
         </button>
-        <button onclick="switchTab('memories')" data-tab="memories" class="nav-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-bold text-gray-300 hover:text-white hover:bg-amber-900/40 transition flex items-center gap-1.5 flex-shrink-0 whitespace-nowrap">
+        <button onclick="switchTab('memories')" data-tab="memories" class="nav-btn px-4 py-2 rounded-xl text-xs font-bold text-gray-300 hover:text-white hover:bg-amber-900/40 transition flex items-center gap-1.5 whitespace-nowrap">
           <i class="fa-solid fa-images text-amber-400"></i>
           <span>Kỷ Niệm</span>
         </button>
-        <button onclick="switchTab('ai-oracle')" data-tab="ai-oracle" class="nav-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-bold text-gray-300 hover:text-white hover:bg-amber-900/40 transition flex items-center gap-1.5 flex-shrink-0 whitespace-nowrap">
+        <button onclick="switchTab('ai-oracle')" data-tab="ai-oracle" class="nav-btn px-4 py-2 rounded-xl text-xs font-bold text-gray-300 hover:text-white hover:bg-amber-900/40 transition flex items-center gap-1.5 whitespace-nowrap">
           <i class="fa-solid fa-crystal-ball text-amber-300"></i>
           <span>Quẻ Xăm Đại Cát</span>
         </button>
       </nav>
 
-      <button onclick="downloadWishSummary()" class="glass-panel px-3 py-2 rounded-xl text-xs font-bold text-amber-300 hover:bg-amber-500/20 transition hidden lg:flex items-center gap-1.5 border-amber-400/40 flex-shrink-0">
+      <button onclick="downloadWishSummary()" class="glass-panel px-3 py-2 rounded-xl text-xs font-bold text-amber-300 hover:bg-amber-500/20 transition flex items-center gap-1.5 border-amber-400/40">
         <i class="fa-solid fa-file-arrow-down"></i>
         <span>Lưu Lời Chúc</span>
       </button>
@@ -79,7 +71,34 @@
     </div>
   </header>
 
-  <main class="relative z-10 pt-20 sm:pt-24 pb-20 pointer-events-none">
+  <!-- MOBILE: bottom tab bar (full width, thumb-friendly) -->
+  <nav class="fixed bottom-0 left-0 right-0 z-50 sm:hidden" style="background: rgba(5,8,25,0.96); backdrop-filter: blur(24px); border-top: 1px solid rgba(251,191,36,0.25); padding-bottom: env(safe-area-inset-bottom);">
+    <div class="flex items-stretch">
+      <button onclick="switchTab('hero')" data-tab="hero" class="mobile-nav-btn active flex-1 flex flex-col items-center justify-center gap-1 py-3 text-amber-400 transition-all">
+        <i class="fa-solid fa-graduation-cap text-lg"></i>
+        <span class="text-[10px] font-bold tracking-wide">Vinh Danh</span>
+      </button>
+      <button onclick="switchTab('lanterns')" data-tab="lanterns" class="mobile-nav-btn flex-1 flex flex-col items-center justify-center gap-1 py-3 text-gray-500 transition-all relative">
+        <i class="fa-solid fa-fire-flame-curved text-lg"></i>
+        <span class="text-[10px] font-bold tracking-wide">Đèn Trời</span>
+        <span id="navLanternBadgeMobile" class="absolute top-2 right-1/4 bg-amber-400 text-gray-950 text-[9px] font-black px-1 rounded-full leading-4">0/6</span>
+      </button>
+      <button onclick="switchTab('wishes')" data-tab="wishes" class="mobile-nav-btn flex-1 flex flex-col items-center justify-center gap-1 py-3 text-gray-500 transition-all">
+        <i class="fa-solid fa-envelope-open-text text-lg"></i>
+        <span class="text-[10px] font-bold tracking-wide">7 NỤ</span>
+      </button>
+      <button onclick="switchTab('memories')" data-tab="memories" class="mobile-nav-btn flex-1 flex flex-col items-center justify-center gap-1 py-3 text-gray-500 transition-all">
+        <i class="fa-solid fa-images text-lg"></i>
+        <span class="text-[10px] font-bold tracking-wide">Kỷ Niệm</span>
+      </button>
+      <button onclick="switchTab('ai-oracle')" data-tab="ai-oracle" class="mobile-nav-btn flex-1 flex flex-col items-center justify-center gap-1 py-3 text-gray-500 transition-all">
+        <i class="fa-solid fa-crystal-ball text-lg"></i>
+        <span class="text-[10px] font-bold tracking-wide">Quẻ Xăm</span>
+      </button>
+    </div>
+  </nav>
+
+  <main class="relative z-10 pt-4 sm:pt-20 pb-28 sm:pb-20 pointer-events-none">
 
     <!-- TAB 1: HERO / HONORS -->
     <div id="section-hero" class="section-tab active">
@@ -157,7 +176,7 @@
           <span class="glass-panel px-4 py-1.5 rounded-full text-xs font-bold text-amber-300 uppercase tracking-widest border-amber-500/30">
             CHIANG MAI YI PENG LANTERN RITUAL
           </span>
-          <h2 class="text-3xl sm:text-5xl font-black aurora-gold-text">Lễ Hội Thả Đèn Trời Yi Peng</h2>
+          <h2 class="text-3xl sm:text-5xl font-black heading-aurora"><span class="aurora-gold-text">Lễ Hội Thả Đèn Trời Yi Peng</span></h2>
           <p class="text-xs sm:text-sm text-gray-300 leading-relaxed font-vietnam">
             Châm lửa thả từng chiếc đèn trời mang tên <span class="text-amber-300 font-bold">Nhóm 7 NỤ</span> để thắp sáng bầu trời Chiang Mai 3D và mở khóa những lời chúc mừng tốt nghiệp ngọt ngào nhất.
           </p>
@@ -237,7 +256,7 @@
           <span class="glass-panel px-4 py-1.5 rounded-full text-xs font-bold text-amber-300 uppercase tracking-widest border-amber-500/30">
             FRIENDSHIP WISHES // NHÓM 7 NỤ
           </span>
-          <h2 class="text-3xl sm:text-5xl font-black aurora-gold-text">Lời Chúc Tốt Nghiệp Từ Nhóm 7 NỤ</h2>
+          <h2 class="text-3xl sm:text-5xl font-black heading-aurora"><span class="aurora-gold-text">Lời Chúc Tốt Nghiệp Từ Nhóm 7 NỤ</span></h2>
           <p class="text-xs sm:text-sm text-gray-300 max-w-xl mx-auto font-vietnam">
             Hãy thả chiếc đèn trời mang tên từng người bạn trong Lễ Hội Yi Peng để thắp sáng ước nguyện và mở khóa thông điệp!
           </p>
@@ -258,7 +277,7 @@
           <span class="glass-panel px-4 py-1.5 rounded-full text-xs font-bold text-amber-300 uppercase tracking-widest border-amber-500/30">
             TIME CAPSULE PLANETS 📸
           </span>
-          <h2 class="text-3xl sm:text-5xl font-black aurora-gold-text">Hành Tinh Kỷ Niệm Thanh Xuân 📸</h2>
+          <h2 class="text-3xl sm:text-5xl font-black heading-aurora"><span class="aurora-gold-text">Hành Tinh Kỷ Niệm Thanh Xuân 📸</span></h2>
         </div>
 
         <div id="memoriesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
@@ -271,7 +290,7 @@
           <span class="glass-panel px-4 py-1.5 rounded-full text-xs font-bold text-amber-300 uppercase tracking-widest border-amber-500/30">
             ROYAL THAI FORTUNE & BLESSING 🔮
           </span>
-          <h2 class="text-3xl sm:text-5xl font-black aurora-gold-text">Ống Xăm Đại Cát</h2>
+          <h2 class="text-3xl sm:text-5xl font-black heading-aurora"><span class="aurora-gold-text">Ống Xăm Đại Cát</span></h2>
           <p class="text-xs sm:text-sm text-gray-300 leading-relaxed font-vietnam">
             Rút quẻ may mắn Hoàng Gia Thái Lan dành riêng cho cử nhân <span class="text-amber-300 font-bold">Xuân Bích</span>! 100% Quẻ Thượng Thượng mang đến niềm vui, tài lộc, sự nghiệp rực rỡ và tình bạn thắm thiết cùng Nhóm 7 NỤ.
           </p>

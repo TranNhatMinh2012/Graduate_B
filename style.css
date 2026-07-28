@@ -24,8 +24,14 @@ body {
 .aurora-gold-text {
   background: linear-gradient(135deg, #ffffff 0%, #fef08a 25%, #fbbf24 65%, #f59e0b 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 25px rgba(251, 191, 36, 0.7));
+  /* Use padding + inline-block so clipped background shows full glyphs */
+  display: inline-block;
+  padding: 0.15em 0.05em;
+  line-height: 1.25;
+  /* Glow via a wrapping drop-shadow on the element itself */
+  filter: drop-shadow(0 0 22px rgba(251, 191, 36, 0.65));
 }
 
 .glass-panel {
@@ -168,4 +174,36 @@ body {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Mobile bottom nav active indicator */
+.mobile-nav-btn {
+  position: relative;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  transition: color 0.25s ease;
+}
+
+.mobile-nav-btn.active {
+  color: #fbbf24;
+}
+
+.mobile-nav-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 2.5px;
+  background: #fbbf24;
+  border-radius: 2px;
+}
+
+/* On mobile, move bottom-left controls above the nav bar */
+@media (max-width: 640px) {
+  .fixed.bottom-4.left-4 {
+    bottom: 72px !important;
+  }
 }

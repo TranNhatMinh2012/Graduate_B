@@ -570,18 +570,34 @@ function getSkyLanternSVG(style = 'gold', extraClasses = '') {
 
 function switchTab(tabId) {
   document.querySelectorAll('.section-tab').forEach(el => el.classList.remove('active'));
+
+  // Desktop nav buttons
   document.querySelectorAll('.nav-btn').forEach(btn => {
     btn.classList.remove('active', 'bg-gradient-to-r', 'from-amber-300', 'to-amber-500', 'text-gray-950');
     btn.classList.add('text-gray-300');
   });
 
+  // Mobile nav buttons
+  document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
+    btn.classList.remove('active');
+    btn.style.color = '';
+  });
+
   const targetSection = document.getElementById(`section-${tabId}`);
   if (targetSection) targetSection.classList.add('active');
 
-  const activeBtn = document.querySelector(`[data-tab="${tabId}"]`);
+  // Activate desktop button
+  const activeBtn = document.querySelector(`.nav-btn[data-tab="${tabId}"]`);
   if (activeBtn) {
     activeBtn.classList.add('active', 'bg-gradient-to-r', 'from-amber-300', 'to-amber-500', 'text-gray-950');
     activeBtn.classList.remove('text-gray-300');
+  }
+
+  // Activate mobile button
+  const activeMobileBtn = document.querySelector(`.mobile-nav-btn[data-tab="${tabId}"]`);
+  if (activeMobileBtn) {
+    activeMobileBtn.classList.add('active');
+    activeMobileBtn.style.color = '#fbbf24'; // amber-400
   }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -680,6 +696,8 @@ function updateProgressHUD() {
   if (percentEl) percentEl.innerText = `${percent}%`;
   if (fillEl) fillEl.style.width = `${percent}%`;
   if (badgeNav) badgeNav.innerText = `${releasedCount}/${total}`;
+  const badgeMobile = document.getElementById('navLanternBadgeMobile');
+  if (badgeMobile) badgeMobile.innerText = `${releasedCount}/${total}`;
 }
 
 function initWishLauncherListeners() {
